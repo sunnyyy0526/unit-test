@@ -1,0 +1,87 @@
+/* Container for the whole page */
+.assigned-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 0 20px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: #333;
+}
+
+/* Page Title */
+.assigned-container h2 {
+  font-size: 24px;
+  color: #0d1b3e; /* Dark Blue */
+  margin-bottom: 20px;
+}
+
+/* Filter Section */
+.filter-section {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.filter-section label {
+  font-weight: 500;
+  color: #64748b; /* Slate Gray */
+  font-size: 14px;
+}
+
+.filter-section select {
+  padding: 8px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #334155;
+  outline: none;
+  background-color: white;
+  cursor: pointer;
+  min-width: 150px;
+}
+
+.filter-section select:focus {
+  border-color: #0b63ff; /* Brand Blue focus */
+}
+
+/* Table Wrapper (White box with shadow) */
+.table-wrapper {
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  overflow: hidden; /* rounded corners for the table */
+}
+
+/* Table Styling */
+.assigned-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+/* Table Headers */
+.assigned-table th {
+  background-color: #f8fafc; /* Very light gray */
+  color: #1e293b;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 15px 20px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+/* Table Rows/Cells */
+.assigned-table td {
+  padding: 15px 20px;
+  font-size: 14px;
+  color: #475569;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+/* No Data Row */
+.no-data {
+  text-align: center;
+  color: #94a3b8; /* Lighter text for empty state */
+  font-style: italic;
+  padding: 40px !important; /* Extra padding for visual balance */
+}

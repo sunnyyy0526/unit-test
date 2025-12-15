@@ -1,0 +1,129 @@
+.navbar {
+  background: #f6f8fb;
+  padding: 22px 0;
+}
+
+.navbar-container {
+  width: 86%;
+  max-width: 1200px;
+  margin: 0 auto;
+  background: #ffffff;
+  padding: 14px 22px;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(20, 30, 50, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brand {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0b63ff;
+}
+
+.emoji {
+  font-size: 16px;
+}
+
+.nav-btn1,
+.nav-btn2 {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: 0.25s ease;
+}
+
+.home {
+  background: #ffffff;
+  color: #333;
+  border: 1px solid #e2e2e2;
+}
+
+.home:focus{
+  background: #eef4ff;
+  color: #0b63ff;
+}
+
+.community {
+  background: #ffffff;
+  color: #333;
+  border: 1px solid #e2e2e2;
+}
+
+.community:focus {
+  background: #eef4ff;
+  color: #0b63ff;
+}
+
+.login-btn {
+  background: #ffffff;
+  border: 1px solid #0b63ff;
+  color: #0b63ff;
+}
+
+.login-btn:hover {
+  background: #e8efff;
+}
+
+.register-btn {
+  background: #0b63ff;
+  color: #ffffff;
+  border: 1px solid #0b63ff;
+}
+
+.register-btn:hover {
+  background: #094ed1;
+}
+.nav-link{                                                       
+  background: #ffffff;
+  color: #333;
+  border: 1px solid #e2e2e2;
+  }
+.nav-link:active, .nav-link:focus {
+  background: #eef4ff;
+  color: #0b63ff;
+}
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.user-info {
+  color: #555;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.user-role {
+  font-weight: normal;
+  color: #888;
+}
+
+.logout-btn {
+  background: #0b63ff;
+  color: #ffffff;
+  border: 1px solid #0b63ff;
+}
+
+.logout-btn:hover {
+  background: #094ed1;
+}
+

@@ -1,0 +1,176 @@
+.details-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 0 20px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* ================= HEADER ================= */
+.details-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 30px;
+}
+
+.details-header h1 {
+  font-size: 24px;
+  color: #0d1b3e;
+  margin: 0 0 10px 0;
+  line-height: 1.3;
+}
+
+/* ================= BADGES ================= */
+.badges {
+  display: flex;
+  gap: 10px;
+}
+
+.badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.badge.status-open {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.badge.ward {
+  background-color: #e2e8f0;
+  color: #475569;
+}
+
+.badge.waste {
+  background-color: #f1f5f9;
+  color: #64748b;
+  border: 1px solid #e2e8f0;
+}
+
+/* ================= HEADER RIGHT ================= */
+.header-right {
+  text-align: right;
+  font-size: 14px;
+  color: #64748b;
+}
+
+.sub-text {
+  font-size: 13px;
+  opacity: 0.8;
+  margin-top: 5px;
+}
+
+/* ================= GRID ================= */
+.details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+/* ================= CARD ================= */
+.card {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  border: 1px solid #f1f5f9;
+}
+
+.card h3 {
+  margin: 0 0 20px 0;
+  font-size: 16px;
+  color: #0f172a;
+  font-weight: 700;
+}
+
+/* ================= DETAILS ROWS ================= */
+.detail-row {
+  display: flex;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.detail-label {
+  width: 130px;
+  color: #64748b;
+  flex-shrink: 0;
+}
+
+.value {
+  color: #334155;
+  font-weight: 500;
+}
+
+/* ================= OPERATOR ================= */
+.not-assigned {
+  color: #64748b;
+  font-style: italic;
+}
+
+/* ================= FULL WIDTH SECTIONS ================= */
+.full-width-card {
+  margin-bottom: 20px;
+}
+
+.description-box {
+  background-color: #f8fafc;
+  padding: 15px;
+  border-radius: 8px;
+  color: #334155;
+  font-size: 14px;
+  border: 1px solid #e2e8f0;
+}
+
+/* ================= UPDATES ================= */
+.updates-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.updates-list li::before {
+  content: "•";
+  color: #cbd5e1;
+  margin-right: 10px;
+}
+
+/* ================= BACK BUTTON ================= */
+.back-btn {
+  background: none;
+  border: none;
+  color: #3b82f6;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  margin-top: 10px;
+}
+
+.back-btn:hover {
+  text-decoration: underline;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+  .details-header {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .header-right {
+    text-align: left;
+  }
+
+  .details-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-label {
+    width: 110px;
+  }
+}
