@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -7,17 +8,21 @@ import Register from "./pages/Register";
 
 // Citizen Pages
 import RaiseRequest from "./pages/citizen/RaiseRequest";
-import MyRequests from "./pages/citizen/MyRequests"; 
-import RequestDetails from "./pages/citizen/RequestDetails"; 
+import MyRequests from "./pages/citizen/MyRequests";
+import RequestDetails from "./pages/citizen/RequestDetails";
 
 // Operator Pages
 import OperatorAssigned from "./pages/Operator/OperatorAssigned";
+
+// Admin Page
+import AdminOperators from "./pages/admin/AdminOperators";
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminAnalytics from "./pages/admin/AdminAnalytics";
 export default function App() {
   const [user, setUser] = useState(null);
 
   const handleLogout = () => {
-    setUser(null); 
+    setUser(null);
   };
 
   return (
@@ -30,17 +35,21 @@ export default function App() {
         <Route path="/home" element={<Home user={user} />} />
         <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/register" element={<Register setUser={setUser} />} />
-        
+
         {/* Citizen Routes */}
         <Route path="/raise-request" element={<RaiseRequest />} />
         <Route path="/my-requests" element={<MyRequests />} />
         <Route path="/view-request/:id" element={<RequestDetails />} />
-        
-        {/* Operator Routes */}
+
+        {/* Operator Route */}
         <Route path="/assigned" element={<OperatorAssigned />} />
-        <Route path="/admin-dashboard" element={<AdminDashboard />} />
+
+        {/* Admin Route */}
+        <Route path="admin-operators" element={<AdminOperators />}
+        />
+        <Route path="admin-dashboard" element={<AdminDashboard />} />
+        <Route path="admin-analytics" element={<AdminAnalytics />} />
       </Routes>
     </Router>
-
   );
 }
