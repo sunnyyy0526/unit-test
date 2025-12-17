@@ -88,7 +88,7 @@ h2 {
   border: 1px solid #ced4da;
   border-radius: 4px;
   background-color: white;
-  min-width: 150px;
+  min-width: 150px;                         
   font-size: 14px;
   color: #495057;
 }
@@ -312,16 +312,14 @@ h2 {
   font-weight: 600;
   display: inline-block;
   text-align: center;
-  min-width: 80px; /* This makes them all the same width */
+  min-width: 80px; 
 }
 
-/* Red for Rejected */
 .status-badge.rejected {
   background-color: #f8d7da;
   color: #842029;
 }
 
-/* Green for Completed */
 .status-badge.completed {
   background-color: #d1e7dd;
   color: #0f5132;
