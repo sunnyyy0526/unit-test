@@ -1,87 +1,151 @@
-/* Container for the whole page */
-.assigned-container {
-  max-width: 1000px;
+.operator-assigned {
+  max-width: 1100px;
   margin: 40px auto;
-  padding: 0 20px;
+  padding: 20px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  color: #333;
+  color: #1e293b;
 }
 
-/* Page Title */
-.assigned-container h2 {
+.operator-assigned h2 {
   font-size: 24px;
-  color: #0d1b3e; /* Dark Blue */
   margin-bottom: 20px;
+  color: #0f172a;
 }
 
-/* Filter Section */
-.filter-section {
-  margin-bottom: 20px;
+.filters {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  margin-bottom: 20px;
 }
 
-.filter-section label {
+.filters label {
+  font-size: 14px;
   font-weight: 500;
-  color: #64748b; /* Slate Gray */
-  font-size: 14px;
+  color: #475569;
 }
 
-.filter-section select {
+.filters select {
   padding: 8px 12px;
-  border: 1px solid #cbd5e1;
+  width: 160px;
   border-radius: 6px;
+  border: 1px solid #cbd5e1;
   font-size: 14px;
+  background: #ffffff;
   color: #334155;
-  outline: none;
-  background-color: white;
   cursor: pointer;
-  min-width: 150px;
 }
 
-.filter-section select:focus {
-  border-color: #0b63ff; /* Brand Blue focus */
+.filters select:focus {
+  outline: none;
+  border-color: #2563eb;
 }
 
-/* Table Wrapper (White box with shadow) */
-.table-wrapper {
-  background: white;
-  border-radius: 8px;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  overflow: hidden; /* rounded corners for the table */
-}
+/* ==============================
+   Table
+   ============================== */
 
-/* Table Styling */
-.assigned-table {
+.table {
   width: 100%;
   border-collapse: collapse;
-  text-align: left;
+  background: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-/* Table Headers */
-.assigned-table th {
-  background-color: #f8fafc; /* Very light gray */
-  color: #1e293b;
-  font-weight: 600;
+.table thead {
+  background: #f8fafc;
+}
+
+.table th {
+  padding: 14px 16px;
   font-size: 14px;
-  padding: 15px 20px;
+  font-weight: 600;
+  color: #1e293b;
   border-bottom: 1px solid #e2e8f0;
 }
 
-/* Table Rows/Cells */
-.assigned-table td {
-  padding: 15px 20px;
+.table td {
+  padding: 14px 16px;
   font-size: 14px;
   color: #475569;
   border-bottom: 1px solid #f1f5f9;
 }
 
-/* No Data Row */
-.no-data {
+/* Striped rows */
+.table.striped tbody tr:nth-child(even) {
+  background: #f9fafb;
+}
+
+/* Hover effect */
+.table.hover tbody tr:hover {
+  background: #f1f5f9;
+}
+
+/* Empty state */
+.table td[colspan] {
   text-align: center;
-  color: #94a3b8; /* Lighter text for empty state */
+  padding: 30px;
+  color: #94a3b8;
   font-style: italic;
-  padding: 40px !important; /* Extra padding for visual balance */
+}
+
+/* ==============================
+   Status Badges
+   ============================== */
+
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 999px;
+  color: #ffffff;
+}
+
+.badge.assigned {
+  background-color: #6366f1;
+}
+
+.badge.on-the-way {
+  background-color: #f59e0b;
+}
+
+.badge.in-progress {
+  background-color: #0ea5e9;
+}
+
+.badge.completed {
+  background-color: #22c55e;
+}
+
+.badge.rejected {
+  background-color: #ef4444;
+}
+
+/* ==============================
+   Action Buttons
+   ============================== */
+
+.btn.small {
+  padding: 6px 10px;
+  margin: 2px;
+  font-size: 12px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  background: #e5e7eb;
+  color: #1e293b;
+  transition: all 0.2s ease;
+}
+
+.btn.small:hover {
+  background: #c7d2fe;
+}
+
+.btn.small:disabled {
+  background: #94a3b8;
+  color: #f8fafc;
+  cursor: not-allowed;
 }

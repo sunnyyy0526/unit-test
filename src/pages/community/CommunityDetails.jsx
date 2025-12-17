@@ -1,133 +1,162 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import "./CommunityDetails.css";
 
 export default function CommunityDetails({ user }) {
   const { id } = useParams();
   const navigate = useNavigate();
+
   const [project, setProject] = useState(null);
+  const [request, setRequest] = useState("");
   const [note, setNote] = useState("");
+  const [success, setSuccess] = useState(false);
 
+  // ---------------- Load project ----------------
   useEffect(() => {
-    const projects = JSON.parse(localStorage.getItem("communityProjects") || "[]");
-    const found = projects.find((p) => p.id === id);
-    if (found) setProject(found);
-  }, [id]);
+    const data = JSON.parse(
+      localStorage.getItem("communityProjects") || "[]"
+    );
 
-  const updateLocalStorage = (updatedProject) => {
-    const projects = JSON.parse(localStorage.getItem("communityProjects") || "[]");
-    const updatedList = projects.map((p) => (p.id === id ? updatedProject : p));
-    localStorage.setItem("communityProjects", JSON.stringify(updatedList));
-    setProject(updatedProject);
+    const found = data.find((p) => p.id === id);
+
+    if (!found) {
+      navigate("/community"); // ✅ FIXED
+      return;
+    }
+
+    setProject({
+      ...found,
+      status: found.status || "Planning", // ✅ ensure status
+    });
+  }, [id, navigate]);
+
+  if (!project) return null;
+
+  // ---------------- Helpers ----------------
+  const isJoined =
+    user &&
+    project.participants?.some((p) => p.name === user.name);
+
+  const saveProject = (updated) => {
+    const all = JSON.parse(
+      localStorage.getItem("communityProjects") || "[]"
+    );
+
+    const newData = all.map((p) =>
+      p.id === updated.id ? updated : p
+    );
+
+    localStorage.setItem("communityProjects", JSON.stringify(newData));
+    setProject(updated);
   };
 
-  const handleJoin = () => {
-    if (!user) return navigate("/login");
-    const updatedProject = {
-      ...project,
-      participants: [...project.participants, { name: user.name, role: "Volunteer" }],
-    };
-    updateLocalStorage(updatedProject);
-  };
+  // ---------------- Join / Leave ----------------
+  const toggleJoin = () => {
+    if (!user) {
+      navigate("/login");
+      return;
+    }
 
-  const handleLeave = () => {
-    const updatedProject = {
-      ...project,
-      participants: project.participants.filter((p) => p.name !== user.name),
-    };
-    updateLocalStorage(updatedProject);
-  };
+    let updated;
 
-  const handleAddNote = () => {
-    if (!note.trim()) return;
-    const newNote = {
-      user: user.name,
-      text: note,
-      time: new Date().toLocaleString(),
-    };
-    const updatedProject = {
-      ...project,
-      notes: [...(project.notes || []), newNote],
-    };
-    updateLocalStorage(updatedProject);
+    if (isJoined) {
+      updated = {
+        ...project,
+        participants: project.participants.filter(
+          (p) => p.name !== user.name
+        ),
+      };
+    } else {
+      updated = {
+        ...project,
+        participants: [
+          ...(project.participants || []),
+          { name: user.name },
+        ],
+      };
+    }
+
     setNote("");
+    setSuccess(false);
+    saveProject(updated);
   };
 
-  if (!project) return <div className="loading">Loading Project...</div>;
+  // ---------------- Add note ----------------
+  const addNote = () => {
+    if (!isJoined) return;
+    if (!note.trim()) return;
 
-  const isJoined = user && project.participants.some((p) => p.name === user.name);
+    const updated = {
+      ...project,
+      notes: [...(project.notes || []), note], // string only
+    };
 
+    setNote("");
+    setSuccess(true);
+    saveProject(updated);
+
+    setTimeout(() => setSuccess(false), 2000);
+  };
+
+  // ---------------- Render ----------------
   return (
-    <div className="details-page-container">
-      <button className="back-link" onClick={() => navigate("/community")}>← Back to Projects</button>
-      
-      <div className="project-banner">
-        <div>
-          <h1>{project.title}</h1>
-          <p className="banner-meta">Ward {project.ward} • {project.targetDate}</p>
+    <div className="community-details">
+      {/* ✅ BACK TO COMMUNITY LIST */}
+      <Link to="/community" className="back-link">
+        ← Back to Projects
+      </Link>
+
+      <h1 className="title">{project.title}</h1>
+
+      <div className="badges">
+        <span className="badge">
+          Status: {project.status || "Planning"}
+        </span>
+        <span className="badge">Ward: {project.ward}</span>
+      </div>
+
+      {user && (
+  <button className="join-btn" onClick={toggleJoin}>
+    {isJoined ? "Leave" : "Join"}
+  </button>
+  
+)}
+<div className="project-description">
+          {/* <h4>About this project</h4> */}
+          <p>{project.description}</p>
         </div>
-        
-        {/* Action Buttons */}
-        {user ? (
-          isJoined ? (
-            <button className="btn-leave" onClick={handleLeave}>Leave Project</button>
-          ) : (
-            <button className="btn-join" onClick={handleJoin}>Join as Volunteer</button>
-          )
+
+
+      <h3 className="notes-title">Notes</h3>
+
+      <ul className="notes-list">
+        {(project.notes || []).length === 0 ? (
+          <li className="empty">No notes</li>
         ) : (
-          <button className="btn-join" onClick={() => navigate("/login")}>Login to Join</button>
+          project.notes.map((n, i) => (
+            <li key={i}>
+              • {typeof n === "string" ? n : n.text}
+            </li>
+          ))
         )}
-      </div>
+      </ul>
 
-      <div className="details-content-grid">
-        <div className="left-col">
-          <div className="section card">
-            <h3>About the Drive</h3>
-            <p>{project.description}</p>
-            <div className="address-box">
-              <strong>📍 Meeting Point:</strong> {project.address}
-            </div>
-          </div>
+      {/* ✅ SHOW ADD NOTE ONLY WHEN JOINED */}
+      {isJoined && (
+        <>
+          {success && <div className="success-box">Note added</div>}
 
-          <div className="section card">
-            <h3>Discussion & Updates</h3>
-            <div className="notes-list">
-              {(project.notes || []).length === 0 && <p className="muted">No updates yet.</p>}
-              {project.notes?.map((n, idx) => (
-                <div key={idx} className="note-item">
-                  <strong>{n.user}</strong> <span className="note-time">{n.time}</span>
-                  <p>{n.text}</p>
-                </div>
-              ))}
-            </div>
-            
-            {isJoined && (
-              <div className="add-note">
-                <input 
-                  type="text" 
-                  value={note} 
-                  onChange={(e) => setNote(e.target.value)} 
-                  placeholder="Ask a question or post an update..."
-                />
-                <button onClick={handleAddNote}>Post</button>
-              </div>
-            )}
-          </div>
-        </div>
+          <textarea
+            className="note-textarea"
+            value={note}
+            onChange={(e) => setNote(e.target.value)}
+          />
 
-        <div className="right-col">
-          <div className="section card">
-            <h3>Participants ({project.participants.length})</h3>
-            <ul className="participants-list">
-              {project.participants.map((p, idx) => (
-                <li key={idx}>
-                  {p.name} <span className="role-tag">{p.role}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </div>
+          <button className="add-note-btn" onClick={addNote}>
+            Add Note
+          </button>
+        </>
+      )}
     </div>
   );
 }
