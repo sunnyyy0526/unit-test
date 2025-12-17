@@ -234,6 +234,41 @@ function Home({ user }) {
             </div>
           </>
         )}
+        {user && user.role === 'super admin' && (
+          <>
+            {/* Admin Dashboard Card */}
+            <div className="home-card">
+              <div className="icon blue" style={{ background: '#e0f2fe', color: '#0284c7' }}>
+                 {/* Chart Icon */}
+                 <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="1.6em" width="1.6em" xmlns="http://www.w3.org/2000/svg"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+              </div>
+              <h3>Admin Dashboard</h3>
+              <p>Manage assignments and view ward analytics.</p>
+              <button 
+                className="view-btn" 
+                onClick={() => navigate("/admin-dashboard")}
+              >
+                Open Dashboard
+              </button>
+            </div>
+
+            {/* Admin Analytics Card */}
+            <div className="home-card">
+              <div className="icon blue" style={{ background: '#e0f2fe', color: '#0284c7' }}>
+                 {/* Graph Icon */}
+                 <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="1.6em" width="1.6em" xmlns="http://www.w3.org/2000/svg"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+              </div>
+              <h3>Admin Analytics</h3>
+              <p>View detailed reports and statistics.</p>
+              <button 
+                className="view-btn" 
+                onClick={() => navigate("/admin-analytics")}
+              >
+                Open Analytics
+              </button>
+            </div>
+          </>
+        )}
 
       </div>
     </div>

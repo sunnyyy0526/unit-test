@@ -79,6 +79,30 @@ export default function Navbar({ user, onLogout }) {
               </button>
             </>
           )}
+            {user && (user.role === "super admin" || user.role === "superAdmin") && (
+            <>
+              <button
+                className="nav-link"
+                onClick={() => navigate("/admin-dashboard")}
+              >
+                Dashboard
+              </button>
+
+              <button
+                className="nav-link"
+                onClick={() => navigate("/admin-analytics")}
+              >
+                Analytics
+              </button>
+
+              <button
+                className="nav-link"
+                onClick={() => navigate("/admin-operators")}
+              >
+                Operators
+              </button>
+            </>
+          )}
         </nav>
 
         {/* Right Navigation */}
