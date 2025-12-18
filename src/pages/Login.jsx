@@ -1,3 +1,105 @@
+// import React, { useState } from "react";
+// import { useNavigate, Link } from "react-router-dom";
+// import "./Login.css";
+
+// export default function Login({ setUser }) {
+//   const navigate = useNavigate();
+
+//   const [email, setEmail] = useState("");
+//   const [password, setPassword] = useState("");
+//   const [error, setError] = useState("");
+
+//   const handleSubmit = (e) => {
+//     e.preventDefault();
+
+//     const storedUser = localStorage.getItem("registeredUser");
+
+//     if (!storedUser) {
+//       setError("Invalid User. Please Register first.");
+//       return;
+//     }
+
+//     const userData = JSON.parse(storedUser);
+    
+//     {error && (
+//       <div className="error-box">
+//         {error}
+//       </div>
+//     )}
+//     if (email !== userData.email) {
+//       setError("Invalid User. Email not found.");
+//       return;
+//     }
+
+//     if (password !== userData.password) {
+//       setError("Incorrect password.") ;
+//       return;
+//     }
+
+//     // ✅ SUCCESS
+//     const loggedInUser = {
+//       name: userData.name,
+//       role: userData.role,
+//     };
+
+//     localStorage.setItem(
+//       "loggedInUser",
+//       JSON.stringify(loggedInUser)
+//     );
+
+//     setUser(loggedInUser);
+//     setError("");
+
+//     // ✅ Go back to previous page (stay on refresh location)
+// navigate("/");
+//   };
+
+//   return (
+//     <div className="login-container">
+//       <form className="login-card" onSubmit={handleSubmit}>
+//         <h1 className="login-title">Welcome back</h1>
+
+//         {error && (
+//           <div className="error-box">
+//             {error}
+//           </div>
+//         )}
+
+//         <label className="label">
+//           Email
+//           <input
+//             className="input"
+//             type="email"
+//             placeholder="Enter your email"
+//             required
+//             onChange={(e) => setEmail(e.target.value)}
+//           />
+//         </label>
+
+//         <label className="label">
+//           Password
+//           <input
+//             className="input"
+//             type="password"
+//             placeholder="Enter your password"
+//             required
+//             onChange={(e) => setPassword(e.target.value)}
+//           />
+//         </label>
+
+//         <button type="submit" className="login-btnn">
+//           Login
+//         </button>
+
+//         <p className="register-text">
+//           Don't have an account?{" "}
+//           <Link to="/register" className="register-link">Register</Link>
+//         </p>
+//       </form>
+//     </div>
+//   );
+// }
+
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "./Login.css";
@@ -11,47 +113,36 @@ export default function Login({ setUser }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    const storedUser = localStorage.getItem("registeredUser");
-
-    if (!storedUser) {
-      setError("Invalid User. Please Register first.");
-      return;
-    }
-
-    const userData = JSON.parse(storedUser);
-    
-    {error && (
-      <div className="error-box">
-        {error}
-      </div>
-    )}
-    if (email !== userData.email) {
-      setError("Invalid User. Email not found.");
-      return;
-    }
-
-    if (password !== userData.password) {
-      setError("Incorrect password.") ;
-      return;
-    }
-
-    // ✅ SUCCESS
-    const loggedInUser = {
-      name: userData.name,
-      role: userData.role,
-    };
-
-    localStorage.setItem(
-      "loggedInUser",
-      JSON.stringify(loggedInUser)
-    );
-
-    setUser(loggedInUser);
     setError("");
 
-    // ✅ Go back to previous page (stay on refresh location)
-navigate("/");
+    // ✅ Get all users
+    const users = JSON.parse(localStorage.getItem("users") || "[]");
+
+    if (users.length === 0) {
+      setError("No users found. Please register first.");
+      return;
+    }
+
+    const foundUser = users.find(
+      (u) => u.email === email && u.password === password
+    );
+
+    if (!foundUser) {
+      setError("Invalid email or password.");
+      return;
+    }
+
+    // ✅ Save session
+    const loggedInUser = {
+      name: foundUser.name,
+      email: foundUser.email,
+      role: foundUser.role,
+    };
+
+    localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
+    setUser(loggedInUser);
+
+    navigate("/");
   };
 
   return (
@@ -59,11 +150,7 @@ navigate("/");
       <form className="login-card" onSubmit={handleSubmit}>
         <h1 className="login-title">Welcome back</h1>
 
-        {error && (
-          <div className="error-box">
-            {error}
-          </div>
-        )}
+        {error && <div className="error-box">{error}</div>}
 
         <label className="label">
           Email
@@ -72,6 +159,7 @@ navigate("/");
             type="email"
             placeholder="Enter your email"
             required
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </label>
@@ -83,6 +171,7 @@ navigate("/");
             type="password"
             placeholder="Enter your password"
             required
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>
@@ -93,10 +182,11 @@ navigate("/");
 
         <p className="register-text">
           Don't have an account?{" "}
-          <Link to="/register" className="register-link">Register</Link>
+          <Link to="/register" className="register-link">
+            Register
+          </Link>
         </p>
       </form>
     </div>
   );
 }
-

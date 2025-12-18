@@ -86,6 +86,93 @@
 //   );
 // }
 
+// import React, { useState } from "react";
+// import { Link, useNavigate } from "react-router-dom";
+// import "./Register.css";
+
+// export default function Register({ setUser }) {
+//   const navigate = useNavigate();
+
+//   const [formData, setFormData] = useState({
+//     name: "",
+//     email: "",
+//     password: "",
+//     role: "citizen",
+//   });
+
+//   const handleChange = (e) => {
+//     setFormData({ ...formData, [e.target.name]: e.target.value });
+//   };
+
+//   const handleRegister = (e) => {
+//     e.preventDefault();
+
+//     // Save full user
+//     localStorage.setItem(
+//       "registeredUser",
+//       JSON.stringify(formData)
+//     );
+
+//     // ✅ Login session
+//     const loggedInUser = {
+//       name: formData.name,
+//       role: formData.role,
+//     };
+
+//     localStorage.setItem(
+//       "loggedInUser",
+//       JSON.stringify(loggedInUser)
+//     );
+
+//     setUser(loggedInUser);
+
+//     // ✅ Return to previous page
+// navigate("/");
+//   };
+
+//   return (
+//     <div className="register-container">
+//       <div className="register-card">
+//         <h2>Create your account</h2>
+
+//         <form onSubmit={handleRegister}>
+//           <label>Name</label>
+//           <input name="name" placeholder="Your full name" required onChange={handleChange} />
+
+//           <label>Email</label>
+//           <input type="email" placeholder="you@example.com" name="email" required onChange={handleChange} />
+
+//           <label>Password</label>
+//           <input type="password" name="password" placeholder="Minimum 6 characters" required onChange={handleChange} />
+
+//           <label>Role</label>
+//           <select name="role" value={formData.role} onChange={handleChange}>
+//             <option value="citizen">Citizen</option>
+//             <option value="operator">Operator</option>
+//             <option value="ward admin">Ward Admin</option>
+//             <option value="super admin">Super Admin</option>
+//           </select>
+          //   <label>Phone</label>
+          // <input type="text" placeholder="Optional" />
+          
+          // <label>Ward (optional)</label>
+          // <input type="text" placeholder="Ward name/number" />
+
+//           <button type="submit" className="register-btn2">
+//             Register & Login
+//           </button>
+//         </form>
+
+//         <p className="login-text">
+//           Already have an account?{" "}
+//           <Link to="/login" className="login-link">Login</Link>
+//         </p>
+//       </div>
+//     </div>
+//   );
+// }
+
+
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Register.css";
@@ -100,34 +187,44 @@ export default function Register({ setUser }) {
     role: "citizen",
   });
 
+  const [error, setError] = useState("");
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleRegister = (e) => {
     e.preventDefault();
+    setError("");
 
-    // Save full user
-    localStorage.setItem(
-      "registeredUser",
-      JSON.stringify(formData)
-    );
+    const users = JSON.parse(localStorage.getItem("users") || "[]");
+
+    // ❌ Prevent duplicate emails
+    if (users.some((u) => u.email === formData.email)) {
+      setError("Email already registered.");
+      return;
+    }
+
+    const newUser = {
+      id: Date.now(),
+      ...formData,
+    };
+
+    // ✅ Save all users
+    users.push(newUser);
+    localStorage.setItem("users", JSON.stringify(users));
 
     // ✅ Login session
     const loggedInUser = {
-      name: formData.name,
-      role: formData.role,
+      name: newUser.name,
+      email: newUser.email,
+      role: newUser.role,
     };
 
-    localStorage.setItem(
-      "loggedInUser",
-      JSON.stringify(loggedInUser)
-    );
-
+    localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
     setUser(loggedInUser);
 
-    // ✅ Return to previous page
-navigate("/");
+    navigate("/");
   };
 
   return (
@@ -135,22 +232,29 @@ navigate("/");
       <div className="register-card">
         <h2>Create your account</h2>
 
+        {error && <div className="error-box">{error}</div>}
+
         <form onSubmit={handleRegister}>
           <label>Name</label>
-          <input name="name" placeholder="Your full name" required onChange={handleChange} />
+          <input name="name" placeholder="Enter your name"  required onChange={handleChange} />
 
           <label>Email</label>
-          <input type="email" placeholder="you@example.com" name="email" required onChange={handleChange} />
+          <input type="email" name="email" placeholder="you@example.com" required onChange={handleChange} />
 
           <label>Password</label>
-          <input type="password" name="password" placeholder="Minimum 6 characters" required onChange={handleChange} />
+          <input
+            type="password"
+            name="password" placeholder="Minimum 6 characters"
+            required
+            onChange={handleChange}
+          />
 
           <label>Role</label>
           <select name="role" value={formData.role} onChange={handleChange}>
             <option value="citizen">Citizen</option>
             <option value="operator">Operator</option>
-            <option value="ward admin">Ward Admin</option>
-            <option value="super admin">Super Admin</option>
+            <option value="wardAdmin">Ward Admin</option>
+            <option value="superAdmin">Super Admin</option>
           </select>
             <label>Phone</label>
           <input type="text" placeholder="Optional" />
@@ -165,7 +269,9 @@ navigate("/");
 
         <p className="login-text">
           Already have an account?{" "}
-          <Link to="/login" className="login-link">Login</Link>
+          <Link to="/login" className="login-link">
+            Login
+          </Link>
         </p>
       </div>
     </div>

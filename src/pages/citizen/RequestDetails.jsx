@@ -83,9 +83,22 @@ export default function RequestDetails() {
         </div>
 
         <div className="card operator-card">
-          <h3>Assigned Operator</h3>
-          <p className="not-assigned">Not assigned yet</p>
-        </div>
+  <h3>Assigned Operator</h3>
+
+  {request.assignedOperator ? (
+    <>
+      <p className="operator-name">
+       <span style={{ fontWeight: 'bold' }} > operator Name :</span > {request.assignedOperator.name} 
+      </p>
+      <p className="operator-sub">
+        <span style={{ fontWeight: 'bold' }} >Ward :</span> {request.assignedOperator.ward || "—"}
+      </p>
+    </>
+  ) : (
+    <p className="not-assigned">Not assigned yet</p>
+  )}
+</div>
+
       </div>
 
       <div className="card full-width-card">
@@ -93,12 +106,30 @@ export default function RequestDetails() {
         <div className="description-box">{request.description}</div>
       </div>
 
-      <div className="card full-width-card">
-        <h3>Updates</h3>
-        <ul className="updates-list">
-          <li>No updates yet</li>
-        </ul>
-      </div>
+ <div className="card full-width-card">
+  <h3>Updates</h3>
+
+  <ul className="updates-list">
+    {/* Initial creation */}
+    <li>
+      <strong>Request created</strong>
+    </li>
+
+    {request.notes && request.notes.length > 0 ? (
+      request.notes.map((n, idx) => (
+        <li key={`${n.time}-${idx}`}>
+          <span className="update-time">[{n.time}]</span>{" "}
+          {/* <strong>{n.role}</strong> */}
+          {n.user && <span> ({n.user})</span>}
+          : {n.text}
+        </li>
+      ))
+    ) : (
+      <li className="muted">No updates yet</li>
+    )}
+  </ul>
+</div>
+
 
       <button className="back-btn" onClick={() => navigate("/my-requests")}>
         ← Back to My Requests
